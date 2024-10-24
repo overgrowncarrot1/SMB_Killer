@@ -36,6 +36,7 @@ formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser = argparse.ArgumentParser(description="SMB Killer", formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument("-r", "--RHOST", action="store", help="RHOST")
 parser.add_argument("-l", "--LHOST", action="store", help="LHOST")
+parser.add_argument("-d", "--DOMAIN", action="store", help="LPORT")
 parser.add_argument("-i", "--Interface", action="store", help="LPORT")
 parser.add_argument("-a", "--Share", action="store", help="Share Name")
 parser.add_argument("-o", "--Other", action="store", help="Other share if not in root folder")
@@ -49,6 +50,7 @@ args = parser.parse_args()
 
 RHOST = args.RHOST
 LHOST = args.LHOST
+DOMAIN = args.DOMAIN
 INTERFACE = args.Interface
 SHARE = args.Share
 USERNAME = args.Username
